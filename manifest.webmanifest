@@ -1,0 +1,61 @@
+{
+  "name": "Gridiron Index — Player Development Library",
+  "short_name": "Gridiron Index",
+  "description": "A paid-product prototype for a curated, offline-ready football learning archive organized by position for parents and players.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui", "browser"],
+  "orientation": "any",
+  "theme_color": "#0f1212",
+  "background_color": "#0f1212",
+  "lang": "en",
+  "dir": "ltr",
+  "categories": ["sports", "education", "reference"],
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-maskable-512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "maskable"
+    },
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml",
+      "sizes": "any",
+      "purpose": "any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Browse offense",
+      "short_name": "Offense",
+      "url": "./index.html#library?side=Offense",
+      "description": "Open the library filtered to offensive positions."
+    },
+    {
+      "name": "Browse defense",
+      "short_name": "Defense",
+      "url": "./index.html#library?side=Defense",
+      "description": "Open the library filtered to defensive positions."
+    },
+    {
+      "name": "Search archive",
+      "short_name": "Search",
+      "url": "./index.html#library",
+      "description": "Jump straight to the searchable film library."
+    }
+  ]
+}

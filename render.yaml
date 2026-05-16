@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: gridiron-index
+    runtime: python
+    plan: free
+    buildCommand: ""
+    startCommand: "python3 server.py"
+    envVars:
+      - key: GI_MEMBER_EMAIL
+        value: member@gridironindex.com
+      - key: GI_MEMBER_PASSWORD
+        value: GI-MAY-2026
+      - key: GI_TOKEN_TTL_SECONDS
+        value: "28800"

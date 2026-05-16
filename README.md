@@ -12,3 +12,4 @@ icon-512.png
 icon-maskable-512.png
 icon-maskable.svg
 icon.svg
+requirements.txt

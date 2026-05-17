@@ -1,0 +1,1465 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Gridiron Index — The position library for football families.</title>
+<meta name="description" content="A hand-picked, position-organized library of the best free football coaching videos on the internet. Built for parents, players, and coaches. $9/month." />
+<meta name="robots" content="noindex" />
+
+<link rel="manifest" href="manifest.webmanifest" />
+<meta name="theme-color" content="#0f1212" />
+<meta name="color-scheme" content="dark" />
+<meta name="application-name" content="Gridiron Index" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="Gridiron Index" />
+<link rel="apple-touch-icon" href="apple-touch-icon.png" />
+<link rel="icon" type="image/svg+xml" href="icon.svg" />
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png" />
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png" />
+<meta name="msapplication-TileColor" content="#0f1212" />
+<meta name="msapplication-TileImage" content="icon-192.png" />
+
+<!-- Open Graph -->
+<meta property="og:title" content="Gridiron Index" />
+<meta property="og:description" content="The position library for football families. Hand-picked coaching videos, organized by position. $9 a month." />
+<meta property="og:type" content="website" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --bg: #0f1212;
+    --surface: #161a1b;
+    --surface-2: #1c2123;
+    --surface-3: #232a2c;
+    --border: #2a3133;
+    --border-strong: #3a4346;
+    --text: #ecece7;
+    --text-muted: #9aa3a4;
+    --text-faint: #6c7577;
+    --accent: #c69a3d;            /* burnished brass */
+    --accent-hover: #d9ad4c;
+    --accent-soft: rgba(198,154,61,0.12);
+    --offense: #c69a3d;
+    --defense: #6fa3a8;
+    --elite: #c69a3d;
+    --trusted: #6fa3a8;
+    --curated: #8a8f8a;
+    --radius: 12px;
+    --radius-sm: 8px;
+    --shadow-soft: 0 1px 0 rgba(255,255,255,0.02) inset, 0 1px 2px rgba(0,0,0,0.35);
+    --shadow-card: 0 1px 0 rgba(255,255,255,0.02) inset, 0 8px 24px -12px rgba(0,0,0,0.6);
+    --font-display: "Newsreader", "Source Serif 4", Georgia, "Iowan Old Style", serif;
+    --font-body: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  html { color-scheme: dark; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 15px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    min-height: 100vh;
+  }
+
+  /* Subtle field-lines backdrop */
+  body::before {
+    content: "";
+    position: fixed; inset: 0;
+    background:
+      radial-gradient(1200px 600px at 80% -10%, rgba(198,154,61,0.05), transparent 60%),
+      radial-gradient(900px 500px at -10% 110%, rgba(111,163,168,0.04), transparent 60%),
+      repeating-linear-gradient(90deg, rgba(255,255,255,0.012) 0 1px, transparent 1px 96px);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { color: var(--accent-hover); text-decoration: underline; text-underline-offset: 3px; }
+  a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  .wrap { position: relative; z-index: 1; max-width: 1180px; margin: 0 auto; padding: 0 24px; }
+
+  /* Header */
+  header.site {
+    border-bottom: 1px solid var(--border);
+    padding: 18px 0 16px;
+    position: sticky; top: 0; z-index: 20;
+    backdrop-filter: blur(12px);
+    background-color: rgba(15,18,18,0.78);
+  }
+  .site-row { display: flex; align-items: center; gap: 18px; justify-content: space-between; }
+  .brand { display: flex; align-items: center; gap: 12px; }
+  .brand svg { width: 30px; height: 30px; display: block; }
+  .brand-text { display: flex; flex-direction: column; line-height: 1.1; }
+  .brand-title { font-family: var(--font-display); font-weight: 600; font-size: 18px; letter-spacing: 0.01em; }
+  .brand-sub { font-size: 10.5px; color: var(--text-muted); letter-spacing: 0.18em; text-transform: uppercase; }
+
+  nav.top { display: flex; gap: 2px; align-items: center; flex-wrap: wrap; justify-content: flex-end; }
+  @media (max-width: 640px) {
+    .site-row { flex-wrap: wrap; gap: 10px; }
+    nav.top { width: 100%; justify-content: flex-start; }
+  }
+  nav.top button, nav.top a.nav-link {
+    background: transparent; color: var(--text-muted); border: 1px solid transparent;
+    padding: 8px 12px; border-radius: var(--radius-sm); font-size: 13px; cursor: pointer;
+    font-family: inherit; transition: color 120ms, background 120ms, border-color 120ms;
+  }
+  nav.top button:hover, nav.top a.nav-link:hover { color: var(--text); }
+  nav.top button.active {
+    color: var(--text);
+    background: var(--surface-2);
+    border-color: var(--border);
+  }
+  nav.top .cta {
+    margin-left: 6px;
+    background: var(--accent);
+    color: #1a1408;
+    border-color: var(--accent);
+    font-weight: 600;
+  }
+  nav.top .cta:hover { background: var(--accent-hover); color: #1a1408; text-decoration: none; }
+
+  /* Hero */
+  .hero { padding: 64px 0 36px; max-width: 880px; }
+  .hero .eyebrow {
+    display: inline-block;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--accent);
+    padding: 4px 10px;
+    border: 1px solid rgba(198,154,61,0.4);
+    border-radius: 999px;
+    background: rgba(198,154,61,0.08);
+    margin-bottom: 18px;
+  }
+  .hero h1 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(36px, 5.6vw, 62px);
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+    margin: 0 0 18px;
+    max-width: 18ch;
+  }
+  .hero .lede {
+    color: var(--text-muted);
+    font-size: 17px;
+    max-width: 56ch;
+    margin: 0 0 22px;
+  }
+  .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 8px; align-items: center; }
+  .price-inline {
+    color: var(--text-muted);
+    font-size: 13px;
+  }
+  .price-inline strong { color: var(--text); font-weight: 600; }
+
+  .btn {
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-sm);
+    padding: 12px 18px;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    text-decoration: none;
+  }
+  .btn.primary { background: var(--accent); color: #1a1408; border-color: var(--accent); }
+  .btn.primary:hover { background: var(--accent-hover); text-decoration: none; }
+  .btn.secondary { background: var(--surface-2); color: var(--text); }
+  .btn.secondary:hover { border-color: var(--accent); color: var(--text); text-decoration: none; }
+  .btn.ghost { background: transparent; color: var(--text-muted); }
+  .btn.ghost:hover { color: var(--text); border-color: var(--border-strong); text-decoration: none; }
+
+  /* Proof line */
+  .proof-row {
+    display: flex; gap: 28px; flex-wrap: wrap;
+    padding: 22px 0 6px;
+    margin-top: 28px;
+    border-top: 1px solid var(--border);
+  }
+  .proof { display: flex; flex-direction: column; gap: 4px; }
+  .proof .n { font-family: var(--font-display); font-size: 26px; font-weight: 500; letter-spacing: -0.01em; font-variant-numeric: tabular-nums; }
+  .proof .l { font-size: 10.5px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-faint); }
+
+  /* Section heads */
+  section.block { padding: 48px 0; }
+  .section-head {
+    display: flex; align-items: baseline; justify-content: space-between;
+    gap: 16px; margin-bottom: 24px;
+  }
+  .eyebrow-sm {
+    font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-faint);
+  }
+  .section-title {
+    font-family: var(--font-display);
+    font-weight: 500; font-size: 28px; letter-spacing: -0.015em; margin: 4px 0 0;
+  }
+  .section-sub { color: var(--text-muted); font-size: 14px; max-width: 60ch; }
+
+  /* Audience cards */
+  .audience-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;
+  }
+  @media (max-width: 820px) { .audience-grid { grid-template-columns: 1fr; } }
+  .audience-card {
+    border: 1px solid var(--border);
+    background: linear-gradient(180deg, var(--surface-2), var(--surface));
+    border-radius: var(--radius);
+    padding: 22px;
+    display: flex; flex-direction: column; gap: 10px;
+    box-shadow: var(--shadow-card);
+  }
+  .audience-card .role {
+    font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--accent); font-weight: 600;
+  }
+  .audience-card h3 {
+    font-family: var(--font-display);
+    font-weight: 500; font-size: 20px;
+    margin: 0;
+  }
+  .audience-card p {
+    margin: 0; color: var(--text-muted); font-size: 14px; line-height: 1.6;
+  }
+  .audience-card .job {
+    margin-top: 8px;
+    padding-top: 12px;
+    border-top: 1px dashed var(--border);
+    font-size: 12.5px;
+    color: var(--text-faint);
+  }
+  .audience-card .job strong { color: var(--text); font-weight: 600; }
+
+  /* Side-of-ball cards */
+  .side-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 720px) { .side-grid { grid-template-columns: 1fr; } }
+
+  .side-card {
+    position: relative;
+    background: linear-gradient(180deg, var(--surface-2), var(--surface));
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 22px;
+    box-shadow: var(--shadow-card);
+  }
+  .side-card .label {
+    font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--accent); font-weight: 600;
+  }
+  .side-card.defense .label { color: var(--defense); }
+  .side-card h3 {
+    font-family: var(--font-display);
+    font-weight: 500; font-size: 22px; margin: 6px 0 14px;
+  }
+  .pos-list { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+  @media (max-width: 480px) { .pos-list { grid-template-columns: 1fr; } }
+  .pos-list button {
+    display: flex; justify-content: space-between; align-items: center;
+    text-align: left;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text);
+    border-radius: var(--radius-sm);
+    padding: 9px 12px;
+    font-family: inherit;
+    font-size: 13.5px;
+    cursor: pointer;
+    transition: border-color 120ms, background 120ms;
+  }
+  .pos-list button:hover { border-color: var(--accent); background: var(--surface-3); }
+  .pos-list button .count {
+    font-variant-numeric: tabular-nums;
+    color: var(--text-faint);
+    font-size: 11.5px;
+  }
+
+  /* Pricing */
+  .pricing-shell {
+    display: grid;
+    grid-template-columns: 1.05fr 1fr;
+    gap: 24px;
+    align-items: stretch;
+  }
+  @media (max-width: 880px) { .pricing-shell { grid-template-columns: 1fr; } }
+  .price-card {
+    background: linear-gradient(180deg, var(--surface-2), var(--surface));
+    border: 1px solid rgba(198,154,61,0.5);
+    border-radius: var(--radius);
+    padding: 28px;
+    box-shadow: var(--shadow-card);
+    display: flex; flex-direction: column;
+  }
+  .price-card .plan {
+    font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--accent); font-weight: 600;
+  }
+  .price-card h3 {
+    font-family: var(--font-display);
+    font-weight: 500; font-size: 28px; margin: 8px 0 4px;
+    letter-spacing: -0.01em;
+  }
+  .price-card .price-line {
+    font-family: var(--font-display);
+    font-size: 56px;
+    line-height: 1;
+    margin: 12px 0 6px;
+    letter-spacing: -0.02em;
+  }
+  .price-card .price-line .per {
+    font-family: var(--font-body);
+    font-size: 14px;
+    color: var(--text-muted);
+    letter-spacing: 0;
+    font-weight: 400;
+    margin-left: 4px;
+  }
+  .price-card .price-sub {
+    color: var(--text-muted); font-size: 14px; max-width: 36ch;
+  }
+  .price-card ul {
+    margin: 22px 0 0;
+    padding: 0;
+    list-style: none;
+    color: var(--text);
+    font-size: 14px;
+    line-height: 1.7;
+  }
+  .price-card ul li {
+    padding-left: 26px;
+    position: relative;
+    margin-bottom: 6px;
+  }
+  .price-card ul li::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 9px;
+    width: 14px; height: 8px;
+    border-left: 2px solid var(--accent);
+    border-bottom: 2px solid var(--accent);
+    transform: rotate(-45deg);
+  }
+  .price-card .price-actions {
+    margin-top: 24px;
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  .price-card .price-fineprint {
+    margin-top: 14px;
+    color: var(--text-faint);
+    font-size: 12px;
+    line-height: 1.5;
+  }
+
+  .value-stack {
+    display: flex; flex-direction: column; gap: 14px;
+  }
+  .value-row {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px;
+    background: rgba(255,255,255,0.012);
+  }
+  .value-row h4 {
+    margin: 0 0 4px;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    color: var(--text);
+  }
+  .value-row p {
+    margin: 0; color: var(--text-muted); font-size: 13.5px; line-height: 1.6;
+  }
+  .value-row .row-eyebrow {
+    font-size: 10.5px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--text-faint); display: block; margin-bottom: 4px;
+  }
+
+  /* Library */
+  .toolbar {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr 1fr 1fr auto;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+  @media (max-width: 880px) { .toolbar { grid-template-columns: 1fr 1fr; } .toolbar #q { grid-column: 1 / -1; } .toolbar .clear { grid-column: 1 / -1; } }
+  .toolbar input, .toolbar select {
+    background: var(--surface);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 10px 12px;
+    font-family: inherit;
+    font-size: 14px;
+    min-height: 42px;
+  }
+  .toolbar input::placeholder { color: var(--text-faint); }
+  .toolbar .clear {
+    background: transparent;
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 10px 14px;
+    font-family: inherit;
+    font-size: 13px;
+    cursor: pointer;
+    min-height: 42px;
+  }
+  .toolbar .clear:hover { color: var(--text); border-color: var(--accent); }
+
+  .count-pill {
+    color: var(--text-muted);
+    font-size: 12.5px;
+    margin-bottom: 16px;
+    display: flex; gap: 8px; flex-wrap: wrap;
+  }
+  .count-pill strong { color: var(--text); font-variant-numeric: tabular-nums; }
+
+  .library {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 14px;
+  }
+  .card {
+    background: linear-gradient(180deg, var(--surface-2), var(--surface));
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px;
+    display: flex; flex-direction: column; gap: 10px;
+    box-shadow: var(--shadow-card);
+    transition: border-color 120ms, transform 120ms;
+  }
+  .card:hover { border-color: var(--border-strong); }
+  .card .top { display: flex; justify-content: space-between; gap: 10px; align-items: flex-start; flex-wrap: wrap; }
+  .card .pos {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 11px; letter-spacing: 0.06em;
+    color: var(--text-muted);
+  }
+  .card .pos .dot { width: 8px; height: 8px; border-radius: 999px; background: var(--accent); }
+  .card .pos.defense .dot { background: var(--defense); }
+  .badges { display: flex; gap: 6px; flex-wrap: wrap; }
+  .badge {
+    font-size: 10.5px; letter-spacing: 0.12em; text-transform: uppercase;
+    padding: 3px 8px; border-radius: 999px;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    font-weight: 600;
+  }
+  .badge.elite { color: var(--elite); border-color: rgba(198,154,61,0.5); background: rgba(198,154,61,0.08); }
+  .badge.trusted { color: var(--trusted); border-color: rgba(111,163,168,0.5); background: rgba(111,163,168,0.08); }
+  .badge.curated { color: var(--curated); border-color: var(--border-strong); }
+  .card h4 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 17px;
+    line-height: 1.25;
+    margin: 2px 0;
+  }
+  .card .meta {
+    color: var(--text-faint);
+    font-size: 12.5px;
+    display: flex; gap: 8px; flex-wrap: wrap;
+  }
+  .card .meta .sep { opacity: 0.6; }
+  .card .speakers {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.45;
+  }
+  .card .speakers .lbl {
+    font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--text-faint); margin-right: 6px;
+  }
+  .card .notes {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 13.5px;
+    line-height: 1.55;
+  }
+  .card .actions { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-top: auto; padding-top: 8px; }
+  .card .watch {
+    display: inline-flex; align-items: center; gap: 7px;
+    background: var(--accent);
+    color: #1a1408;
+    padding: 8px 12px;
+    border-radius: var(--radius-sm);
+    font-weight: 600;
+    font-size: 13px;
+  }
+  .card .watch:hover { background: var(--accent-hover); text-decoration: none; color: #1a1408; }
+  .card .watch svg { width: 16px; height: 16px; }
+  .card .src { font-size: 11px; color: var(--text-faint); }
+
+  .empty {
+    border: 1px dashed var(--border-strong);
+    border-radius: var(--radius);
+    padding: 32px;
+    text-align: center;
+    color: var(--text-muted);
+  }
+  .empty h4 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    color: var(--text);
+    margin: 0 0 6px;
+    font-size: 18px;
+  }
+  .empty p { margin: 0; font-size: 14px; }
+
+  /* Legend */
+  .legend-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  @media (max-width: 820px) { .legend-grid { grid-template-columns: 1fr; } }
+  .legend-card {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px 18px;
+    background: rgba(255,255,255,0.012);
+  }
+  .legend-card .badge { margin-bottom: 8px; display: inline-block; }
+  .legend-card p { margin: 0; color: var(--text-muted); font-size: 13px; line-height: 1.55; }
+
+  /* About prose */
+  .prose { max-width: 70ch; }
+  .prose h3 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 20px;
+    margin: 28px 0 8px;
+  }
+  .prose p, .prose li { color: var(--text-muted); font-size: 14.5px; line-height: 1.7; }
+  .prose ul { padding-left: 20px; }
+  .prose strong { color: var(--text); }
+
+  /* Faux quote */
+  .quote-row {
+    margin-top: 36px;
+    padding: 28px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: rgba(255,255,255,0.012);
+  }
+  .quote-row p {
+    margin: 0;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 19px;
+    line-height: 1.5;
+    color: var(--text);
+    max-width: 60ch;
+  }
+  .quote-row .cite {
+    margin-top: 10px;
+    font-size: 12px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    font-style: normal;
+    font-family: var(--font-body);
+  }
+
+  /* Footer */
+  footer.site {
+    border-top: 1px solid var(--border);
+    padding: 28px 24px 36px;
+    color: var(--text-faint);
+    font-size: 12.5px;
+    margin-top: 32px;
+    display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+    max-width: 1180px;
+    margin-left: auto; margin-right: auto;
+  }
+
+  /* Screens */
+  .screen { display: none; }
+  .screen.active { display: block; }
+
+  /* Reduce motion */
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; animation: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap site-row">
+    <a class="brand" href="#home" role="banner" style="text-decoration:none;color:inherit;">
+      <svg viewBox="0 0 32 32" aria-label="Gridiron Index logo" role="img">
+        <rect x="1" y="1" width="30" height="30" rx="6" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.55"/>
+        <path d="M9 9 L23 23 M23 9 L9 23" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        <line x1="6" y1="27" x2="26" y2="27" stroke="#c69a3d" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      <div class="brand-text">
+        <span class="brand-title">Gridiron Index</span>
+        <span class="brand-sub">The Position Library</span>
+      </div>
+    </a>
+    <nav class="top" aria-label="Primary">
+      <button data-route="home" class="active" type="button">Home</button>
+      <button data-route="library" type="button">Library</button>
+      <button data-route="pricing" type="button">Pricing</button>
+      <button data-route="about" type="button">Method</button>
+      <a class="cta nav-link" href="#pricing" data-route-jump="pricing">Subscribe — $9</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- HOME -->
+  <section id="screen-home" class="screen active">
+    <div class="hero">
+      <span class="eyebrow">Built for football families</span>
+      <h1>The position library every football family wishes existed.</h1>
+      <p class="lede">One place. Hand-picked coaching videos for all 23 positions, with the speaker's name, what they teach, and whether the source is a national clinic, a working FBS coach, or a credentialed educator. No more guessing whether a YouTube video is any good.</p>
+      <div class="hero-actions">
+        <button class="btn primary" data-route-jump="library" type="button">Open the library</button>
+        <button class="btn secondary" data-route-jump="pricing" type="button">See pricing</button>
+        <span class="price-inline"><strong>$9</strong>/month · cancel anytime</span>
+      </div>
+      <div class="proof-row" aria-label="What's inside">
+        <div class="proof"><span class="n" id="stat-total">0</span><span class="l">Hand-picked videos</span></div>
+        <div class="proof"><span class="n" id="stat-positions">0</span><span class="l">Positions covered</span></div>
+        <div class="proof"><span class="n" id="stat-creators">0</span><span class="l">Coaches & sources</span></div>
+        <div class="proof"><span class="n" id="stat-elite">0</span><span class="l">Top-tier clinics</span></div>
+      </div>
+    </div>
+
+    <section class="block">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow-sm">Who it's for</div>
+          <h2 class="section-title">Three people. One library.</h2>
+        </div>
+        <span class="section-sub">If you've ever typed "best linebacker drills" into YouTube and given up, this is for you.</span>
+      </div>
+      <div class="audience-grid">
+        <div class="audience-card">
+          <span class="role">Parents</span>
+          <h3>Be the parent your kid trusts.</h3>
+          <p>Find drills, technique, and footwork for your kid's position in seconds — without becoming a coach overnight.</p>
+          <div class="job"><strong>Saturday morning:</strong> your son says, "Coach told me to work on press release." Open Gridiron Index → WR → press release → press play.</div>
+        </div>
+        <div class="audience-card">
+          <span class="role">Players</span>
+          <h3>Train with the people who actually coach.</h3>
+          <p>Every clip is a real coach teaching a real technique. AFCA. Glazier. FBS and NFL position coaches. No reaction videos. No clickbait.</p>
+          <div class="job"><strong>Offseason:</strong> pick your position, work one topic per week — footwork, hands, eyes, leverage. The plan is the index.</div>
+        </div>
+        <div class="audience-card">
+          <span class="role">Coaches</span>
+          <h3>Pull a teaching clip in under a minute.</h3>
+          <p>Filter by side of ball, position, and source tier. Drop a credentialed coach's clip into a position meeting or send it to a player before practice.</p>
+          <div class="job"><strong>Tuesday film:</strong> need a tackling clip from a Power-5 staff? Two filters, one tap, done. Source is named.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="block">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow-sm">Browse the library</div>
+          <h2 class="section-title">Pick a position.</h2>
+        </div>
+        <span class="section-sub">Tap any position to open the library, pre-filtered.</span>
+      </div>
+      <div class="side-grid">
+        <div class="side-card offense" id="card-offense">
+          <span class="label">Offense</span>
+          <h3>Offensive positions</h3>
+          <div class="pos-list" data-side="Offense"></div>
+        </div>
+        <div class="side-card defense" id="card-defense">
+          <span class="label">Defense</span>
+          <h3>Defensive positions</h3>
+          <div class="pos-list" data-side="Defense"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="block">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow-sm">Source quality</div>
+          <h2 class="section-title">You can see who's teaching.</h2>
+        </div>
+        <span class="section-sub">Every clip is tagged so you can judge credibility at a glance.</span>
+      </div>
+      <div class="legend-grid">
+        <div class="legend-card">
+          <span class="badge elite">Elite</span>
+          <p>National coaching associations (AFCA, Glazier), recognized coaching educators, and verifiably-credentialed NFL or Power-conference head coaches.</p>
+        </div>
+        <div class="legend-card">
+          <span class="badge trusted">Trusted</span>
+          <p>Named FBS, college, or pro position coaches presenting at clinics, conventions, or in position-room sessions with verifiable credentials.</p>
+        </div>
+        <div class="legend-card">
+          <span class="badge curated">Curated</span>
+          <p>Position-specific instruction selected for direct teaching value. Speaker identified wherever possible.</p>
+        </div>
+      </div>
+
+      <div class="quote-row">
+        <p>"The product isn't the videos. The videos are free. The product is the ten seconds it now takes to find the right one."</p>
+        <div class="cite">— The point of Gridiron Index</div>
+      </div>
+    </section>
+  </section>
+
+  <!-- LIBRARY -->
+  <section id="screen-library" class="screen">
+    <div class="hero" style="padding: 36px 0 8px;">
+      <div class="eyebrow-sm">Library</div>
+      <h2 class="section-title" style="font-size: 32px;">Search every video.</h2>
+      <p class="section-sub" id="lib-context" style="margin-top: 4px;">All videos</p>
+    </div>
+
+    <div class="toolbar" role="region" aria-label="Filters">
+      <input id="q" type="search" placeholder="Search by skill, coach, drill, or scheme…" aria-label="Search">
+      <select id="filter-side" aria-label="Side of ball">
+        <option value="">All sides</option>
+        <option value="Offense">Offense</option>
+        <option value="Defense">Defense</option>
+      </select>
+      <select id="filter-position" aria-label="Position">
+        <option value="">All positions</option>
+      </select>
+      <select id="filter-tier" aria-label="Source tier">
+        <option value="">All tiers</option>
+        <option value="Elite">Elite</option>
+        <option value="Trusted">Trusted</option>
+        <option value="Curated">Curated</option>
+      </select>
+      <button class="clear" id="clear-filters" type="button">Clear</button>
+    </div>
+    <div class="count-pill">
+      <span>Showing <strong id="result-count">0</strong> of <strong id="total-count">0</strong></span>
+      <span aria-hidden="true">·</span>
+      <span><strong id="elite-count">0</strong> elite</span>
+      <span aria-hidden="true">·</span>
+      <span><strong id="trusted-count">0</strong> trusted</span>
+      <span aria-hidden="true">·</span>
+      <span><strong id="curated-count">0</strong> curated</span>
+    </div>
+
+    <div id="results" class="library" aria-live="polite"></div>
+    <div id="empty" class="empty" hidden>
+      <h4>Nothing matches those filters.</h4>
+      <p>Try shortening your search, or clear one of the dropdowns.</p>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section id="screen-pricing" class="screen">
+    <div class="hero" style="padding: 48px 0 12px;">
+      <span class="eyebrow">Membership</span>
+      <h1 style="font-size: clamp(32px,4.6vw,52px); max-width: 22ch;">One price. Every position. All season.</h1>
+      <p class="lede">Less than the cost of two protein shakes. The same library a parent, a player, and a coach can all use.</p>
+    </div>
+
+    <div class="pricing-shell" aria-label="Membership">
+      <article class="price-card">
+        <span class="plan">Gridiron Index Membership</span>
+        <h3>The Position Library</h3>
+        <div class="price-line">$9<span class="per">/month</span></div>
+        <p class="price-sub">Cancel anytime. No contracts. No multi-tier upsells.</p>
+        <ul>
+          <li>Full library: 128+ hand-picked videos across all 23 positions</li>
+          <li>Filter by side of ball, position, source tier, and keyword</li>
+          <li>Source-tier badges so you know who's actually teaching</li>
+          <li>New clips added every month — offseason, in-season, all year</li>
+          <li>Works on phone, tablet, or laptop — install to home screen</li>
+          <li>One membership covers parent, player, and coach</li>
+        </ul>
+        <div class="price-actions">
+          <a class="btn primary" href="https://taylorverse737.gumroad.com/l/gridiron-index" target="_blank" rel="noopener" data-checkout="gumroad">Subscribe on Gumroad — $9/mo</a>
+          <button class="btn ghost" data-route-jump="library" type="button">Browse the library first</button>
+        </div>
+        <p class="price-fineprint">Checkout opens in a new tab on Gumroad. Payments and refunds are handled there.</p>
+      </article>
+
+      <div class="value-stack">
+        <div class="value-row">
+          <span class="row-eyebrow">What you're paying for</span>
+          <h4>Curation, not videos.</h4>
+          <p>Every video is free on YouTube. What costs money is the time to find the right one. Gridiron Index is the index — names, positions, tiers, notes — so you skip the search.</p>
+        </div>
+        <div class="value-row">
+          <span class="row-eyebrow">Honest stance</span>
+          <h4>We don't host the videos.</h4>
+          <p>Clips open on YouTube in a new tab, on the original creator's channel. Coaches, clinics, and schools keep their views. We sell the organization on top.</p>
+        </div>
+        <div class="value-row">
+          <span class="row-eyebrow">Refund policy</span>
+          <h4>Try it. Cancel anytime.</h4>
+          <p>If the library doesn't save you time in the first month, cancel from your Gumroad account in two clicks. No emails, no hoops.</p>
+        </div>
+        <div class="value-row">
+          <span class="row-eyebrow">What's not included</span>
+          <h4>This is not a coaching app.</h4>
+          <p>No training plans, no chat with a coach, no AI critique. It's a position library — the one tool you wanted to exist. We do that one thing very well.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT / METHODOLOGY -->
+  <section id="screen-about" class="screen">
+    <div class="hero" style="padding: 36px 0 8px;">
+      <div class="eyebrow-sm">Method</div>
+      <h1 style="font-size: clamp(28px,4vw,42px); max-width: 28ch;">How the library is built — and what we won't pretend.</h1>
+    </div>
+
+    <div class="prose">
+      <h3>Sourcing</h3>
+      <p>Entries are gathered by searching YouTube for open-access football coaching instruction tied to a specific position. We prioritize national coaching organizations (AFCA, Glazier Clinics), recognized coaching educators (MatchQuarters / Cody Alexander, All Eyes DB Camp / Chad Wilson), USA Football, and named college or NFL coaches. Speaker credentials are confirmed from the video title, description, or on-screen title cards wherever possible.</p>
+
+      <h3>Why we don't rank by rating</h3>
+      <p>YouTube removed public dislike counts in November 2021, and aggregate review data for individual videos is not reliably available to outside tools. Instead of pretending to know what's "highest rated," we filter by four working criteria:</p>
+      <ul>
+        <li><strong>Reputable source</strong> — national associations, established clinics, or recognized educator channels.</li>
+        <li><strong>Named, credentialed speaker</strong> — identified in title, description, or on-screen, with a verifiable coaching role.</li>
+        <li><strong>Direct position relevance</strong> — instruction tied to a specific position, not general football commentary.</li>
+        <li><strong>Coaching value</strong> — drill specificity, technique breakdown, or scheme detail useful to a position coach.</li>
+      </ul>
+      <p>TikTok, Instagram, and Facebook clips are excluded by design. Videos from unclear or anonymous sources are excluded unless uniquely valuable for a position not otherwise well covered.</p>
+
+      <h3>Tier definitions</h3>
+      <div class="legend-grid">
+        <div class="legend-card"><span class="badge elite">Elite</span><p>National coaching association (AFCA, Glazier), established coaching educator, or NFL / Power-conference head coach with verifiable credentials.</p></div>
+        <div class="legend-card"><span class="badge trusted">Trusted</span><p>Named FBS, college, or pro coach. Clinic, convention, or position-room presentation with verifiable speaker.</p></div>
+        <div class="legend-card"><span class="badge curated">Curated</span><p>Position-specific instruction selected for direct teaching value. Speaker identified where possible.</p></div>
+      </div>
+
+      <h3>What we're not</h3>
+      <p>This is not a coaching service, not a training plan, and not a video host. We don't claim ownership of the clips, the channels, the clinics, or the coaches. Every link opens publicly on YouTube on the original creator's channel. If a video is taken down by its creator, the link goes dead — that's by design; we don't mirror or re-upload.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site">
+  <span>Gridiron Index · The Position Library</span>
+  <span>Independent. Not affiliated with any league, school, or coaching organization. Links open on YouTube.</span>
+</footer>
+
+<script src="data.js"></script>
+<script>
+(function() {
+  "use strict";
+
+  // ---------- helpers ----------
+  function el(tag, attrs, children) {
+    var n = document.createElement(tag);
+    if (attrs) for (var k in attrs) {
+      if (k === "class") n.className = attrs[k];
+      else if (k === "html") n.innerHTML = attrs[k];
+      else if (k === "text") n.textContent = attrs[k];
+      else if (k.indexOf("on") === 0 && typeof attrs[k] === "function") n.addEventListener(k.slice(2), attrs[k]);
+      else n.setAttribute(k, attrs[k]);
+    }
+    if (children) children.forEach(function(c){ if (c) n.appendChild(c); });
+    return n;
+  }
+  function uniq(arr){ return Array.from(new Set(arr)); }
+  function countBy(arr, fn){ var o={}; arr.forEach(function(x){var k=fn(x); o[k]=(o[k]||0)+1;}); return o; }
+  function debounce(fn, ms){ var t; return function(){ clearTimeout(t); var a=arguments, c=this; t=setTimeout(function(){fn.apply(c,a);}, ms); }; }
+
+  var ITEMS = (window.GRIDIRON_DATA && Array.isArray(window.GRIDIRON_DATA)) ? window.GRIDIRON_DATA : [];
+
+  var state = {
+    route: "home",
+    q: "",
+    side: "",
+    position: "",
+    tier: ""
+  };
+
+  // ---------- stats ----------
+  function refreshStats() {
+    var totalEl = document.getElementById("stat-total");
+    if (!totalEl) return;
+    totalEl.textContent = ITEMS.length;
+    document.getElementById("stat-positions").textContent = uniq(ITEMS.map(function(i){return i.position;})).length;
+    document.getElementById("stat-creators").textContent = uniq(ITEMS.map(function(i){return (i.creator||"").split(/[,(]/)[0].trim();}).filter(Boolean)).length;
+    document.getElementById("stat-elite").textContent = ITEMS.filter(function(i){return i.tier==="Elite";}).length;
+  }
+
+  // ---------- home: position lists ----------
+  function buildPosList(side) {
+    var container = document.querySelector('.pos-list[data-side="'+side+'"]');
+    if (!container) return;
+    container.innerHTML = "";
+    var counts = countBy(ITEMS.filter(function(i){return i.side===side;}), function(i){return i.position;});
+    var positions = Object.keys(counts).sort();
+    positions.forEach(function(p){
+      var b = el("button", {
+        type: "button",
+        "aria-label": p + ", " + counts[p] + " videos",
+        onclick: function(){
+          state.side = side;
+          state.position = p;
+          state.q = "";
+          state.tier = "";
+          go("library");
+        }
+      }, [
+        el("span", { text: p }),
+        el("span", { class: "count", text: String(counts[p]).padStart(2,"0") })
+      ]);
+      container.appendChild(b);
+    });
+  }
+
+  // ---------- library ----------
+  var posSel = document.getElementById("filter-position");
+  function rebuildPositionOptions() {
+    if (!posSel) return;
+    posSel.innerHTML = "";
+    posSel.appendChild(new Option("All positions",""));
+    var pool = state.side ? ITEMS.filter(function(i){return i.side===state.side;}) : ITEMS;
+    var positions = uniq(pool.map(function(i){return i.position;})).sort();
+    positions.forEach(function(p){ posSel.appendChild(new Option(p, p)); });
+    if (positions.indexOf(state.position) >= 0) posSel.value = state.position;
+    else { state.position = ""; posSel.value = ""; }
+  }
+
+  function youTubeIcon() {
+    var s = document.createElementNS("http://www.w3.org/2000/svg","svg");
+    s.setAttribute("viewBox","0 0 24 24"); s.setAttribute("fill","currentColor"); s.setAttribute("aria-hidden","true");
+    var p = document.createElementNS("http://www.w3.org/2000/svg","path");
+    p.setAttribute("d","M21.6 7.2a2.5 2.5 0 0 0-1.76-1.77C18.27 5 12 5 12 5s-6.27 0-7.84.43A2.5 2.5 0 0 0 2.4 7.2 26.2 26.2 0 0 0 2 12a26.2 26.2 0 0 0 .4 4.8 2.5 2.5 0 0 0 1.76 1.77C5.73 19 12 19 12 19s6.27 0 7.84-.43a2.5 2.5 0 0 0 1.76-1.77A26.2 26.2 0 0 0 22 12a26.2 26.2 0 0 0-.4-4.8zM10 15V9l5.2 3-5.2 3z");
+    s.appendChild(p); return s;
+  }
+
+  function renderCard(item) {
+    var pos = el("span", { class: "pos " + (item.side === "Offense" ? "offense" : "defense") }, [
+      el("span", { class: "dot" }),
+      document.createTextNode(item.side + " · " + item.position)
+    ]);
+
+    var tierClass = (item.tier || "Curated").toLowerCase();
+    var badges = el("div", { class: "badges" }, [
+      el("span", { class: "badge " + tierClass, text: item.tier || "Curated" })
+    ]);
+
+    var meta = el("div", { class: "meta" }, [
+      el("span", { text: item.channel || item.creator || "—" }),
+      el("span", { class: "sep", text: "·" }),
+      el("span", { text: item.duration || "" })
+    ]);
+
+    var speakers = el("div", { class: "speakers" }, [
+      el("span", { class: "lbl", text: "Coach" }),
+      document.createTextNode(item.speakers && item.speakers.length ? item.speakers.join(", ") : (item.creator || "Unattributed"))
+    ]);
+
+    var watch = el("a", {
+      class: "watch", href: item.url, target: "_blank", rel: "noopener noreferrer",
+      "aria-label": "Open " + item.title + " on YouTube in a new tab"
+    });
+    watch.appendChild(youTubeIcon());
+    watch.appendChild(document.createTextNode("Watch on YouTube"));
+
+    var actions = el("div", { class: "actions" }, [
+      watch,
+      el("span", { class: "src", text: item.access_status || "" })
+    ]);
+
+    var children = [
+      el("div", { class: "top" }, [pos, badges]),
+      el("h4", { text: item.title }),
+      meta,
+      speakers
+    ];
+    if (item.notes) children.push(el("p", { class: "notes", text: item.notes }));
+    children.push(actions);
+    return el("article", { class: "card" }, children);
+  }
+
+  function applyFilters() {
+    var q = state.q.trim().toLowerCase();
+    var filtered = ITEMS.filter(function(i){
+      if (state.side && i.side !== state.side) return false;
+      if (state.position && i.position !== state.position) return false;
+      if (state.tier && i.tier !== state.tier) return false;
+      if (q) {
+        var hay = [i.title, i.position, i.category, i.creator, i.channel,
+                   (i.speakers||[]).join(" "), i.notes, i.tier].join(" ").toLowerCase();
+        if (hay.indexOf(q) === -1) return false;
+      }
+      return true;
+    });
+
+    var results = document.getElementById("results");
+    var empty = document.getElementById("empty");
+    if (!results) return;
+    results.innerHTML = "";
+
+    if (filtered.length === 0) {
+      empty.hidden = false;
+    } else {
+      empty.hidden = true;
+      var frag = document.createDocumentFragment();
+      filtered.forEach(function(it){ frag.appendChild(renderCard(it)); });
+      results.appendChild(frag);
+    }
+
+    document.getElementById("result-count").textContent = filtered.length;
+    document.getElementById("total-count").textContent = ITEMS.length;
+    document.getElementById("elite-count").textContent = filtered.filter(function(i){return i.tier==="Elite";}).length;
+    document.getElementById("trusted-count").textContent = filtered.filter(function(i){return i.tier==="Trusted";}).length;
+    document.getElementById("curated-count").textContent = filtered.filter(function(i){return i.tier==="Curated";}).length;
+
+    var ctx = [];
+    if (state.side) ctx.push(state.side);
+    if (state.position) ctx.push(state.position);
+    if (state.tier) ctx.push(state.tier + " tier");
+    if (q) ctx.push('"' + state.q + '"');
+    document.getElementById("lib-context").textContent = ctx.length ? ctx.join(" · ") : "All videos";
+  }
+
+  // ---------- routing ----------
+  function go(route) {
+    state.route = route;
+    document.querySelectorAll(".screen").forEach(function(s){ s.classList.remove("active"); });
+    var scr = document.getElementById("screen-" + route);
+    if (scr) scr.classList.add("active");
+    document.querySelectorAll("nav.top button").forEach(function(b){
+      b.classList.toggle("active", b.dataset.route === route);
+    });
+    if (route === "library") {
+      var qIn = document.getElementById("q");
+      if (qIn) qIn.value = state.q;
+      var sideSel = document.getElementById("filter-side");
+      if (sideSel) sideSel.value = state.side;
+      rebuildPositionOptions();
+      var tierSel = document.getElementById("filter-tier");
+      if (tierSel) tierSel.value = state.tier;
+      applyFilters();
+    }
+    window.scrollTo({ top: 0, behavior: "auto" });
+    if (history && history.replaceState) {
+      history.replaceState(null, "", "#" + route);
+    }
+  }
+
+  document.querySelectorAll("nav.top button[data-route]").forEach(function(b){
+    b.addEventListener("click", function(){ go(b.dataset.route); });
+  });
+  document.querySelectorAll("[data-route-jump]").forEach(function(b){
+    b.addEventListener("click", function(e){
+      // For anchor tags, prevent default to avoid hash navigation conflict
+      if (b.tagName === "A") e.preventDefault();
+      go(b.dataset.routeJump);
+    });
+  });
+
+  // ---------- events ----------
+  var qInput = document.getElementById("q");
+  if (qInput) qInput.addEventListener("input", debounce(function(e){
+    state.q = e.target.value;
+    applyFilters();
+  }, 120));
+
+  var sideEl = document.getElementById("filter-side");
+  if (sideEl) sideEl.addEventListener("change", function(e){
+    state.side = e.target.value;
+    state.position = "";
+    rebuildPositionOptions();
+    applyFilters();
+  });
+  var posEl = document.getElementById("filter-position");
+  if (posEl) posEl.addEventListener("change", function(e){
+    state.position = e.target.value;
+    applyFilters();
+  });
+  var tierEl = document.getElementById("filter-tier");
+  if (tierEl) tierEl.addEventListener("change", function(e){
+    state.tier = e.target.value;
+    applyFilters();
+  });
+  var clearBtn = document.getElementById("clear-filters");
+  if (clearBtn) clearBtn.addEventListener("click", function(){
+    state.q = ""; state.side = ""; state.position = ""; state.tier = "";
+    if (qInput) qInput.value = "";
+    if (sideEl) sideEl.value = "";
+    if (tierEl) tierEl.value = "";
+    rebuildPositionOptions();
+    applyFilters();
+  });
+
+  // ---------- init ----------
+  refreshStats();
+  buildPosList("Offense");
+  buildPosList("Defense");
+
+  function routeFromHash() {
+    var h = (location.hash || "").replace("#","");
+    if (["home","library","pricing","about"].indexOf(h) >= 0) go(h);
+    else go("home");
+  }
+  window.addEventListener("hashchange", routeFromHash);
+  routeFromHash();
+
+  // ---------- service worker (when hosted) ----------
+  if ("serviceWorker" in navigator && (location.protocol === "https:" || location.protocol === "http:")) {
+    window.addEventListener("load", function(){
+      navigator.serviceWorker.register("service-worker.js").catch(function(){ /* non-fatal */ });
+    });
+  }
+})();
+</script>
+<script data-pplx-inline-edit>
+(function () {
+  if (window === window.top) return;
+
+  const allowedParentOrigins = ["https://www.perplexity.ai","https://perplexity.ai","https://testing.perplexity.ai","https://staging.perplexity.ai","https://*.preview.i.perplexity.ai","http://localhost:3000","http://127.0.0.1:3000","http://localhost:5173","http://127.0.0.1:5173"];
+  const MAX_FONT_BYTES = 500 * 1024;
+  const MAX_TOTAL_FONT_BYTES = 2 * 1024 * 1024;
+  let scrollForwarding = false;
+  let scrollRaf = 0;
+  let trustedTopOrigin = null;
+
+  // Allow entries like "https://*.preview.i.perplexity.ai" — the wildcard
+  // matches a single DNS label (no dots), so "https://*.foo" cannot stretch
+  // across multiple labels.
+  function matchesAllowedOrigin(origin) {
+    if (!origin) return false;
+    for (const entry of allowedParentOrigins) {
+      if (!entry.includes("*")) {
+        if (entry === origin) return true;
+        continue;
+      }
+      const pattern = new RegExp(
+        "^" +
+          entry.replace(/[.+?^${}()|[\]\\]/g, "\\$&").replace(/\*/g, "[^.]+") +
+          "$",
+      );
+      if (pattern.test(origin)) return true;
+    }
+    return false;
+  }
+
+  // Trust decision: when the sender is same-origin-visible (event.origin is a
+  // real origin like https://www.perplexity.ai) we trust event.origin directly.
+  // When event.origin is "null" (opaque broker srcdoc), we fall back to the
+  // broker's stamped `parentOrigin` to identify the top window. The fallback
+  // is claim-only — we rely on the browser's native `targetOrigin` enforcement
+  // on the response path (see postToTrustedTop) to ensure replies can't be
+  // delivered to anyone but the actual top window of that claimed origin.
+  function getTrustedParentOrigin(event) {
+    const forwardedParentOrigin =
+      typeof event.data.parentOrigin === "string" ? event.data.parentOrigin : null;
+    const parentOrigin = event.origin === "null" ? forwardedParentOrigin : event.origin;
+    return matchesAllowedOrigin(parentOrigin) ? parentOrigin : null;
+  }
+
+  // All responses go to window.top with targetOrigin = the allowlisted origin.
+  // An attacker that iframes us inside their own null-origin broker can claim
+  // any parentOrigin they like, but the browser will drop the reply whenever
+  // the real top's origin doesn't match — so the screenshot never leaves.
+  function postToTrustedTop(message) {
+    if (!trustedTopOrigin) return;
+    try {
+      window.top.postMessage(message, trustedTopOrigin);
+    } catch (_error) {}
+  }
+
+  function inlineAll(original, clone) {
+    if (original.nodeType !== 1 || clone.nodeType !== 1) return;
+
+    try {
+      const computedStyle = getComputedStyle(original);
+      // cssText on a computed style is the serialized declaration in modern
+      // Chromium/Safari — a single read beats enumerating ~400 longhand
+      // properties. Firefox returns "" here, so we fall back on empty.
+      const serialized = computedStyle.cssText;
+      if (serialized) {
+        clone.style.cssText = serialized;
+      } else {
+        const parts = new Array(computedStyle.length);
+        for (let index = 0; index < computedStyle.length; index += 1) {
+          const property = computedStyle[index];
+          parts[index] = `${property}:${computedStyle.getPropertyValue(property)};`;
+        }
+        clone.style.cssText = parts.join("");
+      }
+    } catch (_error) {}
+
+    const originalChildren = original.children;
+    const clonedChildren = clone.children;
+    for (
+      let index = 0;
+      index < originalChildren.length && index < clonedChildren.length;
+      index += 1
+    ) {
+      inlineAll(originalChildren[index], clonedChildren[index]);
+    }
+  }
+
+  function extractFontUrl(srcValue) {
+    const matches = [
+      ...srcValue.matchAll(
+        /url\(["']?([^"')]+)["']?\)(?:\s*format\(["']?([^"')]+)["']?\))?/gi,
+      ),
+    ];
+    if (matches.length === 0) return null;
+    const woff2 = matches.find((m) => m[2] && m[2].toLowerCase().includes("woff2"));
+    if (woff2) return woff2[1];
+    const woff = matches.find((m) => m[2] && m[2].toLowerCase().includes("woff"));
+    if (woff) return woff[1];
+    return matches[0][1];
+  }
+
+  // Cache resolved font URL -> data URI across captures. Fonts on a page
+  // essentially never change, and a batch run emits multiple captures back to
+  // back — without this we'd refetch + re-base64 every time.
+  const fontDataUriCache = new Map();
+  const SRC_DECLARATION_RE = /src\s*:\s*[^;}]+/i;
+
+  async function fetchAsDataUri(url) {
+    if (fontDataUriCache.has(url)) return fontDataUriCache.get(url);
+    let dataUri = null;
+    try {
+      const response = await fetch(url, { mode: "cors", credentials: "omit" });
+      if (response.ok) {
+        const blob = await response.blob();
+        if (blob.size <= MAX_FONT_BYTES) {
+          dataUri = await new Promise((resolve) => {
+            const reader = new FileReader();
+            reader.onloadend = () =>
+              resolve(typeof reader.result === "string" ? reader.result : null);
+            reader.onerror = () => resolve(null);
+            reader.readAsDataURL(blob);
+          });
+        }
+      }
+    } catch (_error) {
+      dataUri = null;
+    }
+    fontDataUriCache.set(url, dataUri);
+    return dataUri;
+  }
+
+  function collectFontFaceRuleTexts() {
+    const rules = [];
+    for (const sheet of document.styleSheets) {
+      let cssRules;
+      try {
+        cssRules = sheet.cssRules;
+      } catch (_error) {
+        continue;
+      }
+      if (!cssRules) continue;
+      for (const rule of cssRules) {
+        const cssText = rule.cssText || "";
+        if (cssText.startsWith("@font-face")) rules.push(cssText);
+      }
+    }
+    return rules;
+  }
+
+  async function buildInlinedFontCss() {
+    const ruleTexts = collectFontFaceRuleTexts();
+    if (ruleTexts.length === 0) return null;
+
+    const resolved = ruleTexts.map((cssText) => {
+      if (!SRC_DECLARATION_RE.test(cssText)) return null;
+      const srcMatch = cssText.match(/src\s*:\s*([^;}]+)[;}]/i);
+      if (!srcMatch) return null;
+      const url = extractFontUrl(srcMatch[1]);
+      if (!url) return null;
+      try {
+        return { cssText, url: new URL(url, document.baseURI).href };
+      } catch (_error) {
+        return null;
+      }
+    });
+
+    const dataUris = await Promise.all(
+      resolved.map((entry) => (entry ? fetchAsDataUri(entry.url) : Promise.resolve(null))),
+    );
+
+    const inlined = [];
+    let totalBytes = 0;
+    for (let index = 0; index < resolved.length; index += 1) {
+      const entry = resolved[index];
+      const dataUri = dataUris[index];
+      if (!entry || !dataUri) continue;
+      const approxBytes = dataUri.length * 0.75;
+      if (totalBytes + approxBytes > MAX_TOTAL_FONT_BYTES) break;
+      totalBytes += approxBytes;
+      inlined.push(entry.cssText.replace(SRC_DECLARATION_RE, `src: url("${dataUri}")`));
+    }
+    return inlined.length > 0 ? inlined.join("\n") : null;
+  }
+
+  function stripExternal(clone) {
+    const images = clone.querySelectorAll("img");
+    for (let index = 0; index < images.length; index += 1) {
+      const src = images[index].getAttribute("src");
+      if (src && !src.startsWith("data:")) images[index].removeAttribute("src");
+    }
+
+    const elements = clone.querySelectorAll("*");
+    for (let index = 0; index < elements.length; index += 1) {
+      const style = elements[index].style.cssText;
+      if (style && style.includes("url(")) {
+        elements[index].style.cssText = style.replace(
+          /url\(["']?(?!data:)[^)"']*["']?\)/gi,
+          "none",
+        );
+      }
+    }
+  }
+
+  function emitScroll() {
+    scrollRaf = 0;
+    if (!scrollForwarding) return;
+    postToTrustedTop({
+      type: "INLINE_EDIT_SCROLL",
+      scrollX: window.scrollX,
+      scrollY: window.scrollY,
+    });
+  }
+
+  window.addEventListener(
+    "scroll",
+    function () {
+      if (!scrollForwarding || scrollRaf) return;
+      scrollRaf = requestAnimationFrame(emitScroll);
+    },
+    { passive: true, capture: true },
+  );
+
+  async function handleCaptureRequest(event) {
+    const requestId = event.data.requestId;
+    const scrollX = window.scrollX;
+    const scrollY = window.scrollY;
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+
+    function postResult(dataUrl) {
+      postToTrustedTop({
+        type: "INLINE_EDIT_SCREENSHOT_RESULT",
+        requestId,
+        dataUrl,
+        scrollX,
+        scrollY,
+      });
+    }
+
+    try {
+      // Wait for any pending web fonts to resolve so both inline metrics and
+      // the @font-face inlining below see the same loaded faces.
+      if (document.fonts && document.fonts.ready) {
+        try {
+          await document.fonts.ready;
+        } catch (_error) {}
+      }
+
+      const clone = document.documentElement.cloneNode(true);
+      inlineAll(document.documentElement, clone);
+
+      const removedNodes = clone.querySelectorAll("script,link[rel=\"stylesheet\"],style");
+      for (let index = 0; index < removedNodes.length; index += 1) {
+        removedNodes[index].remove();
+      }
+
+      stripExternal(clone);
+
+      // Re-embed web fonts as data-URI @font-face rules so the SVG rasterizer
+      // can resolve them — external font URLs aren't fetched during
+      // foreignObject rendering, which would otherwise force a fallback face
+      // and change text metrics.
+      const inlinedFontCss = await buildInlinedFontCss();
+      if (inlinedFontCss) {
+        const styleEl = document.createElement("style");
+        styleEl.textContent = inlinedFontCss;
+        const head = clone.querySelector("head");
+        if (head) head.appendChild(styleEl);
+        else clone.insertBefore(styleEl, clone.firstChild);
+      }
+
+      const html = new XMLSerializer().serializeToString(clone);
+      const svg =
+        `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}">` +
+        '<foreignObject width="100%" height="100%">' +
+        `<div xmlns="http://www.w3.org/1999/xhtml" style="width:${width}px;height:${height}px;overflow:hidden">` +
+        `<div style="transform:translate(-${scrollX}px,-${scrollY}px);transform-origin:top left">` +
+        html +
+        "</div></div></foreignObject></svg>";
+      const svgUrl = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
+      const image = new Image();
+      image.onload = function () {
+        const canvas = document.createElement("canvas");
+        canvas.width = width;
+        canvas.height = height;
+        canvas.getContext("2d").drawImage(image, 0, 0);
+        postResult(canvas.toDataURL("image/png"));
+      };
+      image.onerror = function () {
+        postResult(null);
+      };
+      image.src = svgUrl;
+    } catch (_error) {
+      postResult(null);
+    }
+  }
+
+  window.addEventListener("message", function (event) {
+    if (!event.data) return;
+    // Only accept messages from the direct parent frame. Blocks sibling /
+    // unrelated-window postMessage senders that could otherwise reach us.
+    if (event.source !== window.parent) return;
+
+    const trustedParentOrigin = getTrustedParentOrigin(event);
+    if (!trustedParentOrigin) return;
+    trustedTopOrigin = trustedParentOrigin;
+
+    if (event.data.type === "INLINE_EDIT_SCROLL_START") {
+      scrollForwarding = true;
+      emitScroll();
+      return;
+    }
+
+    if (event.data.type === "INLINE_EDIT_SCROLL_STOP") {
+      scrollForwarding = false;
+      if (scrollRaf) cancelAnimationFrame(scrollRaf);
+      scrollRaf = 0;
+      return;
+    }
+
+    if (event.data.type !== "INLINE_EDIT_CAPTURE_REQUEST") return;
+
+    handleCaptureRequest(event);
+  });
+})();
+
+
+</script></body>
+</html>

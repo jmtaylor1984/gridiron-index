@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="The Coaching Archive (maskable)">
+  <rect width="512" height="512" fill="#0f1212"/>
+  <!-- Safe zone (80%) — keep critical content inside center 410x410 -->
+  <path d="M186 186 L326 326 M326 186 L186 326" stroke="#ecece7" stroke-width="24" stroke-linecap="round"/>
+  <line x1="166" y1="358" x2="346" y2="358" stroke="#c69a3d" stroke-width="22" stroke-linecap="round"/>
+</svg>

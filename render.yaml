@@ -3,8 +3,8 @@ services:
     name: gridiron-index
     runtime: python
     plan: free
-    buildCommand: ""
-    startCommand: "python3 server.py"
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "python server.py"
     envVars:
       - key: GI_MEMBER_EMAIL
         value: member@gridironindex.com
